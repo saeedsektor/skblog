@@ -24,9 +24,7 @@ export async function getStaticProps({ params }) {
         author{
             name
         }
-        content{
-            text
-        }
+        body
       }
     }
   `,
@@ -67,6 +65,7 @@ export default function Single({ post }) {
         <Head>
           <title>Saeedev / Blog</title>
           <link rel="icon" href="/favicon.ico" />
+          <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         </Head>
   
         <main className={styles.main}>
@@ -81,7 +80,7 @@ export default function Single({ post }) {
   
           <div className={styles.wrapper}>
                 <Link href="/">
-                    <a>↩  Go Back</a>
+                    <a> ↩  Go Back</a>
                 </Link>
                 <div className={styles.cardSingle}>
                   <img src={post.coverImage.url}/>
@@ -99,7 +98,7 @@ export default function Single({ post }) {
                     <small>Written By : {post.author.name}</small>
                   </div>
                   <hr/>
-                  {post.content.text.toString()}
+                  <p id="content">{post.body}</p>
                 </div>
           </div>
         </main>

@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import gql  from '@apollo/client';
+import Link from 'next/link'
 import { GraphQLClient } from 'graphql-request';
 import styles from '../styles/Home.module.css'
 
-export default function Home({ posts }) {
+export default function Home({ posts, categories }) {
   console.log(posts);
   return (
     <div className={styles.container}>
@@ -21,6 +21,18 @@ export default function Home({ posts }) {
           my thoughts and progress as a 
           <code className={styles.code}>fullstack developer</code>
         </p>
+
+        <nav>
+          <ul className={styles.cats}>
+            {categories.map(category => {
+              return (
+                <li>
+                  <Link href={`/${category.slug}`}><a>- {category.name}</a></Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
 
         <div className={styles.grid}>
           {posts.map(post => {
@@ -42,6 +54,8 @@ export default function Home({ posts }) {
             )
           })}
         </div>
+
+        
       </main>
 
       <footer className={styles.footer}>
@@ -80,10 +94,22 @@ export async function getStaticProps() {
     }`
   );
 
+  const { categories } = await client.request(
+    `{
+      categories {
+        id
+        name
+        slug
+      }
+    }`
+  );
+
+
 
   return {
     props: {
-      posts
+      posts,
+      categories
     }
   }
 }

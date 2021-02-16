@@ -1,0 +1,1 @@
+// show posts of the selected category
